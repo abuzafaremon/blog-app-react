@@ -1,14 +1,20 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Header from './Components/Header/Header';
+import Home from './Pages/Home/Home';
+import Login from './Pages/Login/Login';
+import Post from './Pages/Post/Post';
 
 export default function App() {
   return (
     <div className="App">
-      <div className="avatar online">
-        <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-          <img src="https://placeimg.com/192/192/people" />
-        </div>
-      </div>
-      <button class="btn">Button</button>
+      <Header />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/post' element={<Post />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
     </div>
   );
 };
