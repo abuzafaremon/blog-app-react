@@ -37,7 +37,7 @@ export default function Login() {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn" onClick={() => signInWithGoogle()}>Continue With Google</button>
+              <button className="btn capitalize" onClick={() => signInWithGoogle()}>Sign In With Google</button>
             </div>
           </div>
         </div>
