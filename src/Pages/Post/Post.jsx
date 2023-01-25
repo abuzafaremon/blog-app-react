@@ -9,7 +9,7 @@ import { v4 } from 'uuid';
 export default function Post() {
   const [title, setTitle] = useState('');
   const [postText, setPostText] = useState('');
-  const [uploadImage, setUploadImage] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
   const [imageList, setImageList] = useState([]);
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
@@ -18,8 +18,8 @@ export default function Post() {
   const imageListRef = ref(storage, 'images/');
 
   const imageUpload = () => {
-    const imageRef = ref(storage, `images/${uploadImage?.name + v4()}`);
-    uploadBytes(imageRef, uploadImage).then((snapshot) => {
+    const imageRef = ref(storage, `images/${uploadedImage?.name + v4()}`);
+    uploadBytes(imageRef, uploadedImage).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         setImageList((prev) => [...prev, url])
       })
@@ -39,7 +39,7 @@ export default function Post() {
 
   const createPost = async () => {
     const postDate = new Date();
-    if (uploadImage === null) return;
+    if (uploadedImage === null) return;
     await addDoc(postCollectionRef, { title, photoUrl: imageList[imageList.length - 1], postText, author: { name: user.displayName, id: user.uid, authorImg: user.photoURL }, postDate: postDate.toString() });
     alert('Post Added Successfully');
     navigate('/');
@@ -62,8 +62,8 @@ export default function Post() {
               </label>
               <textarea type="text" placeholder="Description..." className="textarea input-bordered resize-none" onChange={(e) => setPostText(e.target.value)} ></textarea>
               <label className="label flex-col">
-                <input onChange={(e) => setUploadImage(e.target.files[0])} type="file" name="" id="" className='file-input file-input-bordered' required />
-                {uploadImage && <button onClick={imageUpload} className='btn btn-xs'>Upload Image</button>}
+                <input onChange={(e) => setUploadedImage(e.target.files[0])} type="file" name="" id="" className='file-input file-input-bordered' required />
+                {uploadedImage && <button onClick={imageUpload} className='btn btn-xs'>Upload Image</button>}
               </label>
             </div>
             <div className="form-control mt-6">
