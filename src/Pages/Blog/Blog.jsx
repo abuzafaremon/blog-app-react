@@ -1,9 +1,9 @@
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import SinglePost from '../../Components/SinglePost/SinglePost';
 import { db } from '../../firebase.config';
 
-export default function Home() {
+export default function Blog() {
   const [postList, setPostList] = useState([]);
   const postCollectionRef = collection(db, 'posts');
   useEffect(() => {
@@ -14,7 +14,6 @@ export default function Home() {
 
     getPosts();
   }, [postList])
-
   return (
     <div className='p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
       {

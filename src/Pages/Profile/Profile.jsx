@@ -14,7 +14,7 @@ export default function Profile() {
     }
 
     getPosts();
-  }, []);
+  }, [postList]);
   const deletePost = async (id) => {
     const confirmation = window.confirm('Are you sure? Once you delete this post you can not recover this. Do you want to delete this post?');
     if (confirmation) {

@@ -21,7 +21,7 @@ export default function Post() {
     const imageRef = ref(storage, `images/${uploadedImage?.name + v4()}`);
     uploadBytes(imageRef, uploadedImage).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        setImageList((prev) => [...prev, url])
+        setImageList((prev) => [url, ...prev])
       })
       alert('Image Uploaded')
     })
@@ -31,7 +31,7 @@ export default function Post() {
     listAll(imageListRef).then((res) => {
       res.items.forEach((item) => {
         getDownloadURL(item).then((url) => {
-          setImageList((prev) => [...prev, url]);
+          setImageList((prev) => [url, ...prev]);
         })
       })
     })
@@ -42,7 +42,7 @@ export default function Post() {
     if (uploadedImage === null) return;
     await addDoc(postCollectionRef, { title, photoUrl: imageList[imageList.length - 1], postText, author: { name: user.displayName, id: user.uid, authorImg: user.photoURL }, postDate: postDate.toString() });
     alert('Post Added Successfully');
-    navigate('/');
+    navigate('/blog');
   }
 
   return (

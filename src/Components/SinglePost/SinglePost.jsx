@@ -2,10 +2,9 @@ import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase.config';
 
-export default function SinglePost({ post, deletePost }) {
-  const [user] = useAuthState(auth);
+export default function SinglePost({ post }) {
 
-  const { title, photoUrl, postText, author, postDate, id } = post;
+  const { title, photoUrl, postText, author, postDate } = post;
 
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
@@ -16,7 +15,6 @@ export default function SinglePost({ post, deletePost }) {
           <span>Post Date : {postDate?.slice(0, 24)}</span>
           <span>Posted By : {author.name}</span>
         </p>
-        {user.uid === author.id && <button onClick={() => deletePost(id)} title="Delete">&#128465;</button>}
       </div>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
