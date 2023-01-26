@@ -6,6 +6,7 @@ export default function SinglePost({ post, deletePost }) {
   const [user] = useAuthState(auth);
 
   const { title, photoUrl, postText, author, postDate, id } = post;
+
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
       <figure><img src={photoUrl} alt="" /></figure>

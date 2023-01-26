@@ -15,7 +15,7 @@ export default function Header() {
     navigate('/login');
   };
   return (
-    <div className="navbar bg-base-100 sticky top-0 z-50">
+    <div className="navbar bg-base-200 sticky top-0 z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -56,7 +56,7 @@ export default function Header() {
             </label>
             <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
               <li>
-                <Link className="justify-between">
+                <Link to='/profile' className="justify-between">
                   Profile
                   <span className="badge">New</span>
                 </Link>

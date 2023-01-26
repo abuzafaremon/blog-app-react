@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className='p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
       {
-        postList.map((post) => <SinglePost post={post} key={post.id} deletePost={deletePost} />)
+        postList.reverse().map((post) => <SinglePost post={post} key={post.id} deletePost={deletePost} />)
       }
     </div>
   )
