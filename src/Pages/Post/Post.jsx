@@ -40,7 +40,7 @@ export default function Post() {
   const createPost = async () => {
     const postDate = new Date();
     if (uploadedImage === null) return;
-    await addDoc(postCollectionRef, { title, photoUrl: imageList[imageList.length - 1], postText, author: { name: user.displayName, id: user.uid, authorImg: user.photoURL }, postDate: postDate.toString() });
+    await addDoc(postCollectionRef, { title, photoUrl: imageList[0], postText, author: { name: user.displayName, id: user.uid, authorImg: user.photoURL }, postDate: postDate.toString() });
     alert('Post Added Successfully');
     navigate('/blog');
   }

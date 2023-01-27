@@ -1,10 +1,9 @@
-import React from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../../firebase.config';
-
 export default function SinglePost({ post }) {
 
   const { title, photoUrl, postText, author, postDate } = post;
+  const detailsPage = () => {
+    alert('Details Page Coming Soon')
+  }
 
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
@@ -18,9 +17,10 @@ export default function SinglePost({ post }) {
       </div>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
-        <p>{postText.slice(0, 150)}</p>
+        <p>{postText}</p>
         <div className="card-actions justify-end">
-          <button className="btn">Read More</button>
+          <button className="btn btn-link text-slate-700">Comments</button>
+          <button className="btn" onClick={detailsPage}>Read More &raquo;</button>
         </div>
       </div>
     </div>
