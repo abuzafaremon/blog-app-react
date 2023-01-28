@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function Hero() {
   return (
-    <div className="hero">
+    <div className="hero py-5 shadow-md">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">Hello There</h1>
