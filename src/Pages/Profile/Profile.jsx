@@ -13,6 +13,8 @@ export default function Profile() {
       const postDoc = doc(db, 'posts', id)
       await deleteDoc(postDoc);
     }
+    document.location.reload()
+    alert('Post Deleted')
   }
 
   const filteredPost = postList.filter((post) => post.author.id === user.uid)
