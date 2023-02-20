@@ -47,6 +47,9 @@ export default function Post() {
               </label>
               <textarea type="text" placeholder="Description..." className="textarea input-bordered resize-none" onChange={(e) => setPostText(e.target.value)} ></textarea>
               <label className="label flex-col">
+                {uploadedImage && (
+                  <img src={URL.createObjectURL(uploadedImage)} alt="postImage" />
+                )}
                 <input onChange={(e) => setUploadedImage(e.target.files[0])} type="file" name="" id="" className='file-input file-input-bordered file-input-xs sm:file-input-sm md:file-input-md ' required />
               </label>
             </div>
