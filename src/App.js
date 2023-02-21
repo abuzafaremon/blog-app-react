@@ -4,6 +4,7 @@ import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
 import SinglePost from './Components/SinglePost/SinglePost';
 import Blog from './Pages/Blog/Blog';
+import BlogDetails from './Pages/BlogDetails/BlogDetails';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import Post from './Pages/Post/Post';
@@ -19,6 +20,7 @@ export default function App() {
         <Route path='/post' element={<Post />} />
         <Route path='/blogs' element={<Blog />} />
         <Route path='/singlePost' element={<SinglePost />} />
+        <Route path='/blog/:blogId' element={<BlogDetails />} />?
         <Route path='/profile' element={<Profile />} />
         <Route path='/login' element={<Login />} />
       </Routes>

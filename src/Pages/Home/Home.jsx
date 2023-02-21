@@ -9,7 +9,7 @@ export default function Home() {
     <div className=''>
       <Hero />
       <p className='text-3xl text-slate-700 font-bold text-center py-5 uppercase'>Blogs</p>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-10'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-5 md:p-10'>
         {
           postList.reverse().slice(0, 3).map((post) => <SinglePost post={post} key={post.id} />)
         }

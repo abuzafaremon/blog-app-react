@@ -5,7 +5,6 @@ import { db } from "../firebase.config";
 export default function usePosts() {
   const [postList, setPostList] = useState([]);
   const postCollectionRef = collection(db, 'posts');
-
   useEffect(() => {
     const getPosts = async () => {
       const data = await getDocs(postCollectionRef)
@@ -13,6 +12,5 @@ export default function usePosts() {
     }
     getPosts();
   }, []);
-
   return [postList, setPostList]
 }

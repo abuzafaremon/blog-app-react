@@ -8,6 +8,7 @@ import { v4 } from 'uuid';
 
 export default function Post() {
   const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(false);
   const [postText, setPostText] = useState('');
   const [uploadedImage, setUploadedImage] = useState(null);
   const [user] = useAuthState(auth);
@@ -16,14 +17,15 @@ export default function Post() {
   const postCollectionRef = collection(db, 'posts');
 
   const createPost = async () => {
+    setLoading(true)
     const postDate = new Date();
-
     const imageRef = ref(storage, `images/${uploadedImage?.name + v4()}`);
     await uploadBytes(imageRef, uploadedImage).then((snapshot) => {
       // get image url 
       getDownloadURL(snapshot.ref).then((url) => {
         // add post to database
         addDoc(postCollectionRef, { title, photoUrl: url, postText, author: { name: user.displayName, id: user.uid, authorImg: user.photoURL }, postDate: postDate.toString() });
+        setLoading(false)
         alert('Post Added Successfully');
         navigate('/blogs');
       })
@@ -50,11 +52,13 @@ export default function Post() {
                 {uploadedImage && (
                   <img src={URL.createObjectURL(uploadedImage)} alt="postImage" />
                 )}
-                <input onChange={(e) => setUploadedImage(e.target.files[0])} type="file" name="" id="" className='file-input file-input-bordered file-input-xs sm:file-input-sm md:file-input-md ' required />
+                <input onChange={(e) => setUploadedImage(e.target.files[0])} type="file" name="" id="" className='file-input file-input-bordered file-input-xs sm:file-input-sm md:file-input-md' required />
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn" onClick={createPost}>Submit Post</button>
+              <button className="btn" onClick={createPost}>
+                {loading ? <progress className="progress progress-success"></progress> : 'Submit Post'}
+              </button>
             </div>
           </div>
         </div>
