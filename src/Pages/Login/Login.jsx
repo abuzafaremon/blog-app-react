@@ -2,6 +2,7 @@ import React from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase.config';
+import google from '../../assets/images/google.png'
 
 export default function Login() {
   const [signInWithGoogle, user, loading] = useSignInWithGoogle(auth);
@@ -38,7 +39,7 @@ export default function Login() {
             </div>
             <div className="form-control mt-6">
               <button className="btn capitalize gap-2" onClick={() => signInWithGoogle()}>
-                <img width={20} src="google.png" alt="google" />
+                <img width={20} src={google} alt="google" />
                 <span>Sign In With Google</span>
               </button>
             </div>

@@ -14,14 +14,6 @@ export default function Profile() {
   }
 
   const deletePost = async (id) => {
-    // const confirmation = window.confirm('Are you sure? Once you delete this post you can not recover this. Do you want to delete this post?');
-    // if (confirmation) {
-
-    //   alert('Post Deleted')
-    // } else {
-    //   alert('Your post is safe')
-    // }
-
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this post!",

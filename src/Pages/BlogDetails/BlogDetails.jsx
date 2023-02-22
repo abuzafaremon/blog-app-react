@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import { auth } from "../../firebase.config";
 import usePosts from "../../hooks/usePosts";
+import demoUser from '../../assets/images/demoUser.png';
 
 const BlogDetails = () => {
   const [user] = useAuthState(auth);
@@ -14,29 +15,63 @@ const BlogDetails = () => {
   const [comment, setComment] = useState('');
   const [isCommented, setIsCommented] = useState(false);
   const post = postList?.filter(post => post.id === blogId)
+  const navigate = useNavigate();
 
+  //like function
   const handleLike = () => {
-    setIsLiked(!isLiked);
-    if (isLiked) {
-      setLike((prev) => prev - 1)
+    if (user) {
+      setIsLiked(!isLiked);
+      if (isLiked) {
+        setLike((prev) => prev - 1)
+      } else {
+        setLike((prev) => prev + 1)
+      }
     } else {
-      setLike((prev) => prev + 1)
+      swal({
+        title: "You are not Logged In!",
+        text: "You cannot Like. Would you want to log in?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((yes) => {
+          if (yes) {
+            navigate('/login')
+          }
+        });
     }
   }
-
+  //comment function
   const handleComment = (e) => {
     e.preventDefault();
     // const comment = e.target.comment.value;
     // swal(`Your Comment "${comment}" is coming soon`)
-    setComment(e.target.comment.value)
-    setIsCommented(true)
-    e.target.comment.value = '';
+    if (user) {
+      setComment(e.target.comment.value)
+      setIsCommented(true)
+      e.target.comment.value = '';
+    } else {
+      swal({
+        title: "You are not Logged In!",
+        text: "You cannot Comment. Would you want to log in?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((yes) => {
+          if (yes) {
+            navigate('/login')
+          }
+        });
+    }
   }
+  //share function
   const handleShare = () => {
     const shareLink = window.location.href;
     navigator.clipboard.writeText(shareLink)
     swal("Share Link Copied", "", "success")
   }
+
   return (
     <section className="p-5 md:p-10">
       {
@@ -68,7 +103,11 @@ const BlogDetails = () => {
             <div className="flex items-start gap-3">
               <div className="avatar">
                 <div className="w-10 rounded-full ring ring-slate-700 ring-offset-base-100 ring-offset-2">
-                  <img src={user.photoURL} alt='userPhoto' />
+                  {
+                    user?.photoURL ?
+                      <img src={user?.photoURL} alt='userPhoto' /> :
+                      <img src={demoUser} alt='userPhoto' />
+                  }
                 </div>
               </div>
               <form className="flex gap-2 items-center w-full" onSubmit={handleComment}>
@@ -81,11 +120,15 @@ const BlogDetails = () => {
               {isCommented && <div className="flex items-start gap-3">
                 <div className="avatar">
                   <div className="w-10 rounded-full ring ring-slate-700 ring-offset-base-100 ring-offset-2">
-                    <img src={user.photoURL} alt='userPhoto' />
+                    {
+                      user?.photoURL ?
+                        <img src={user?.photoURL} alt='userPhoto' /> :
+                        <img src={demoUser} alt='userPhoto' />
+                    }
                   </div>
                 </div>
                 <div className="w-fit bg-slate-200 rounded-md grid px-2 py-1">
-                  <span className="font-bold">{user.displayName}</span>
+                  <span className="font-bold">{user?.displayName}</span>
                   <span>{comment}</span>
                 </div>
               </div>}
