@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+import swal from 'sweetalert';
 
 export default function Post() {
   const [title, setTitle] = useState('');
@@ -24,9 +25,15 @@ export default function Post() {
       // get image url 
       getDownloadURL(snapshot.ref).then((url) => {
         // add post to database
-        addDoc(postCollectionRef, { title, photoUrl: url, postText, author: { name: user.displayName, id: user.uid, authorImg: user.photoURL }, postDate: postDate.toString() });
+        addDoc(postCollectionRef, {
+          title,
+          photoUrl: url,
+          postText,
+          author: { name: user.displayName, id: user.uid, authorImg: user.photoURL },
+          postDate: postDate.toString()
+        });
         setLoading(false)
-        alert('Post Added Successfully');
+        swal("Good job!", "Post Added Successfully", "success");
         navigate('/blogs');
       })
     })
@@ -37,22 +44,23 @@ export default function Post() {
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <div className="card-body">
+            <h2 className='text-sm'>Hey {user.displayName}, write your post...</h2>
             <div className="form-control">
-              <label className="label">
+              <label htmlFor='title' className="label">
                 <span className="label-text">Title:</span>
               </label>
-              <input type="text" placeholder="Title..." className="input input-bordered" onChange={(e) => setTitle(e.target.value)} />
+              <input type="text" id='title' placeholder="Title..." className="input input-bordered" onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="form-control">
-              <label className="label">
+              <label htmlFor='postText' className="label">
                 <span className="label-text">Post:</span>
               </label>
-              <textarea type="text" placeholder="Description..." className="textarea input-bordered resize-none" onChange={(e) => setPostText(e.target.value)} ></textarea>
+              <textarea type="text" id='postText' placeholder={`Whats on your mind ${user.displayName}`} className="textarea input-bordered resize-none" onChange={(e) => setPostText(e.target.value)} ></textarea>
               <label className="label flex-col">
                 {uploadedImage && (
                   <img src={URL.createObjectURL(uploadedImage)} alt="postImage" />
                 )}
-                <input onChange={(e) => setUploadedImage(e.target.files[0])} type="file" name="" id="" className='file-input file-input-bordered file-input-xs sm:file-input-sm md:file-input-md' required />
+                <input type="file" required className='file-input file-input-bordered file-input-xs sm:file-input-sm md:file-input-md' onChange={(e) => setUploadedImage(e.target.files[0])} />
               </label>
             </div>
             <div className="form-control mt-6">

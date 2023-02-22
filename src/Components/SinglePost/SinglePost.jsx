@@ -10,12 +10,12 @@ export default function SinglePost({ post }) {
 
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
-      <figure className="h-64 overflow-hidden"><img className="w-full" src={photoUrl} alt="" /></figure>
+      <figure className="max-h-64 overflow-hidden"><img className="w-full" src={photoUrl} alt="" /></figure>
       <div className='flex items-center gap-2 p-2'>
         <img className='rounded-full' width={30} height={30} src={author.authorImg} alt="" />
         <p className='flex flex-col text-sm flex-grow'>
-          <span>Post Date : {postDate?.slice(0, 24)}</span>
           <span>Author : {author.name}</span>
+          <span>Post Date : {postDate?.slice(0, 24)}</span>
         </p>
       </div>
       <div className="card-body">

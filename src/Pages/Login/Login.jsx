@@ -25,19 +25,22 @@ export default function Login() {
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
-              <input type="text" placeholder="email" className="input input-bordered" readOnly />
+              <input type="text" placeholder="Disabled" className="input input-bordered" readOnly disabled />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input type="text" placeholder="password" className="input input-bordered" readOnly />
+              <input type="text" placeholder="Disabled" className="input input-bordered" readOnly disabled />
               <label className="label">
                 <Link href="#" className="label-text-alt link link-hover">Forgot password?</Link>
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn capitalize" onClick={() => signInWithGoogle()}>Sign In With Google</button>
+              <button className="btn capitalize gap-2" onClick={() => signInWithGoogle()}>
+                <img width={20} src="google.png" alt="google" />
+                <span>Sign In With Google</span>
+              </button>
             </div>
           </div>
         </div>

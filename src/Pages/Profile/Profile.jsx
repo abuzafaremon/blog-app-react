@@ -1,27 +1,47 @@
 import { deleteDoc, doc, } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 import { auth, db } from '../../firebase.config';
 import usePosts from '../../hooks/usePosts';
 
 export default function Profile() {
   const [user] = useAuthState(auth);
-  const [postList] = usePosts();
+  const [postList, setPostList] = usePosts();
   const navigate = useNavigate();
   const detailsPage = (id) => {
     navigate(`/blog/${id}`);
   }
 
   const deletePost = async (id) => {
-    const confirmation = window.confirm('Are you sure? Once you delete this post you can not recover this. Do you want to delete this post?');
-    if (confirmation) {
-      const postDoc = doc(db, 'posts', id)
-      await deleteDoc(postDoc);
-      document.location.reload();
-      alert('Post Deleted')
-    } else {
-      alert('Your post is safe')
-    }
+    // const confirmation = window.confirm('Are you sure? Once you delete this post you can not recover this. Do you want to delete this post?');
+    // if (confirmation) {
+
+    //   alert('Post Deleted')
+    // } else {
+    //   alert('Your post is safe')
+    // }
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this post!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          const postDoc = doc(db, 'posts', id)
+          deleteDoc(postDoc);
+          const remaining = postList.filter(post => post.id !== id);
+          setPostList(remaining);
+          swal("Your post has been deleted!", {
+            icon: "success",
+          });
+        } else {
+          swal("Your post is safe!");
+        }
+      });
   }
 
   const filteredPost = postList.filter((post) => post.author.id === user.uid)
