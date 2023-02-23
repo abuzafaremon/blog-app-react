@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import TimeAgo from "timeago-react";
 
 export default function SinglePost({ post }) {
 
-  const { title, photoUrl, postText, author, postDate, id } = post;
+  const { title, photoUrl, postText, author, currentDate, currentTime, id } = post;
   const navigate = useNavigate();
   const detailsPage = (id) => {
     navigate(`/blog/${id}`);
@@ -10,12 +11,15 @@ export default function SinglePost({ post }) {
 
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
-      <figure className="max-h-64 overflow-hidden"><img className="w-full" src={photoUrl} alt="" /></figure>
+      <figure className="max-h-64 overflow-hidden"><img className="w-full" src={photoUrl} alt="BlogPhoto" /></figure>
       <div className='flex items-center gap-2 p-2'>
         <img className='rounded-full' width={30} height={30} src={author.authorImg} alt="" />
         <p className='flex flex-col text-sm flex-grow'>
-          <span>Author : {author.name}</span>
-          <span>Post Date : {postDate?.slice(0, 24)}</span>
+          <span><strong>{author.name}</strong></span>
+          <TimeAgo
+            datetime={`${post.currentDate} ${""} ${post.currentTime
+              }`}
+          />
         </p>
       </div>
       <div className="card-body">

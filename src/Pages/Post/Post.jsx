@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import swal from 'sweetalert';
+import Loading from '../../Components/Loading/Loading'
 
 export default function Post() {
   const [title, setTitle] = useState('');
@@ -17,10 +18,19 @@ export default function Post() {
 
   const postCollectionRef = collection(db, 'posts');
 
+  const postDate = new Date();
+  let day = postDate.getDate();
+  let month = postDate.getMonth() + 1;
+  let year = postDate.getFullYear();
+
+  let currentDate = `${year}-${month}-${day}`;
+  let currentTime = `${postDate.getHours()}:${postDate.getMinutes()}:${postDate.getSeconds()}`;
+
   const createPost = async () => {
+    if (!title || !postText) return;
     setLoading(true)
-    const postDate = new Date();
     const imageRef = ref(storage, `images/${uploadedImage?.name + v4()}`);
+
     await uploadBytes(imageRef, uploadedImage).then((snapshot) => {
       // get image url 
       getDownloadURL(snapshot.ref).then((url) => {
@@ -29,8 +39,9 @@ export default function Post() {
           title,
           photoUrl: url,
           postText,
-          author: { name: user.displayName, id: user.uid, authorImg: user.photoURL },
-          postDate: postDate.toString()
+          author: { name: user?.displayName, id: user?.uid, authorImg: user?.photoURL },
+          currentDate,
+          currentTime
         });
         setLoading(false)
         swal("Good job!", "Post Added Successfully", "success");
@@ -44,7 +55,7 @@ export default function Post() {
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <div className="card-body">
-            <h2 className='text-sm'>Hey {user.displayName}, write your post...</h2>
+            <h2 className='text-sm'>Hey {user?.displayName}, write your post...</h2>
             <div className="form-control">
               <label htmlFor='title' className="label">
                 <span className="label-text">Title:</span>
@@ -55,7 +66,7 @@ export default function Post() {
               <label htmlFor='postText' className="label">
                 <span className="label-text">Post:</span>
               </label>
-              <textarea type="text" id='postText' placeholder={`Whats on your mind ${user.displayName}`} className="textarea input-bordered resize-none" onChange={(e) => setPostText(e.target.value)} ></textarea>
+              <textarea type="text" id='postText' placeholder={`Whats on your mind ${user?.displayName}`} className="textarea input-bordered resize-none" onChange={(e) => setPostText(e.target.value)} ></textarea>
               <label className="label flex-col">
                 {uploadedImage && (
                   <img src={URL.createObjectURL(uploadedImage)} alt="postImage" />
@@ -64,9 +75,14 @@ export default function Post() {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn" onClick={createPost}>
-                {loading ? <progress className="progress progress-success"></progress> : 'Submit Post'}
-              </button>
+              {loading ?
+                <button className="btn">
+                  <Loading />
+                </button>
+                :
+                <button className="btn" onClick={createPost}>
+                  Submit Post
+                </button>}
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import { auth } from "../../firebase.config";
 import usePosts from "../../hooks/usePosts";
 import demoUser from '../../assets/images/demoUser.png';
+import TimeAgo from "timeago-react";
 
 const BlogDetails = () => {
   const [user] = useAuthState(auth);
@@ -82,8 +83,11 @@ const BlogDetails = () => {
           <div className='flex items-center gap-2 p-4'>
             <img className='rounded-full' width={30} height={30} src={p?.author?.authorImg} alt="" />
             <p className='flex flex-col text-sm flex-grow'>
-              <span>Author : {p?.author?.name}</span>
-              <span>Post Date : {p?.postDate?.slice(0, 24)}</span>
+              <span><strong>{p?.author?.name}</strong></span>
+              <TimeAgo
+                datetime={`${p.currentDate} ${""} ${p.currentTime
+                  }`}
+              />
             </p>
           </div>
           {/* post details */}
@@ -127,9 +131,15 @@ const BlogDetails = () => {
                     }
                   </div>
                 </div>
-                <div className="w-fit bg-slate-200 rounded-md grid px-2 py-1">
-                  <span className="font-bold">{user?.displayName}</span>
-                  <span>{comment}</span>
+                <div>
+                  <div className="w-fit bg-slate-200 rounded-md grid px-2 py-1">
+                    <span className="font-bold">{user?.displayName}</span>
+                    <span>{comment}</span>
+                  </div>
+                  <div className="flex gap-3">
+                    <button className="underline font-medium text-slate-700">Like</button>
+                    <button className="underline font-medium text-slate-700">Reply</button>
+                  </div>
                 </div>
               </div>}
             </div>
